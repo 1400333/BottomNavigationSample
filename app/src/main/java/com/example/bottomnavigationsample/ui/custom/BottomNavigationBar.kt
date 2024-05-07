@@ -29,10 +29,6 @@ import com.example.bottomnavigationsample.ui.screen.ProfileScreen
 import com.example.bottomnavigationsample.ui.screen.SearchScreen
 import com.example.bottomnavigationsample.ui.screen.SubScreen
 
-const val HOME_GRAPH_ROUTE = "home"
-const val SEARCH_GRAPH_ROUTE = "search"
-const val PRODILE_GRAPH_ROUTE = "profile"
-
 @Composable
 fun createBottomNavigationBar() {
     val navController = rememberNavController()
@@ -49,7 +45,6 @@ fun BottomNavigationBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    var iPopUpToId = 0
     var strRootTopRoute by remember { mutableStateOf("") }
     var iRootTopId by remember { mutableStateOf(0) }
 
