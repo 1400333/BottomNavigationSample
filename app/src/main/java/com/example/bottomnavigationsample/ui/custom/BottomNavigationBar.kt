@@ -1,5 +1,6 @@
 package com.example.bottomnavigationsample.ui.custom
 
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -84,6 +85,12 @@ fun BottomNavigationBar(navController: NavHostController) {
                             iPopUpToId = iRootTopId
                             strNavigateRoute = strRootTopRoute
                         }
+
+                        if (iPopUpToId == 0) {
+                            iPopUpToId = iRootTopId
+                        }
+
+                        //Log.d("RDLog","[NavigateRoute]${strNavigateRoute}[iPopUpToId]${iPopUpToId}[iRootTopId]${iRootTopId}")
 
                         navController.navigate(strNavigateRoute) {
                             popUpTo(iPopUpToId) {
