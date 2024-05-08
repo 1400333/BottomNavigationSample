@@ -78,10 +78,9 @@ fun BottomNavigationBar(navController: NavHostController) {
                             }
                         }
 
-                        //確定strRootTopRoute 是 findStartDestination 的子層
-                        //我現在要切換的頁面 是 findStartDestination 的子層
-                        //簡單來說：我現在手動點Home，我要切換的頁面(strNavigateRoute)為Home層的最上層
-                        if (strRootTopRoute.contains(strFindStartRoute) && navigationItem.route.contains(strFindStartRoute)) {
+                        //我現在手動點Home，即navigationItem.route 為 Screens.Home.route，
+                        //要切換的頁面為Home最上層的畫面，即strRootTopRoute
+                        if (navigationItem.route == strFindStartRoute) {
                             iPopUpToId = iRootTopId
                             strNavigateRoute = strRootTopRoute
                         }
@@ -92,25 +91,28 @@ fun BottomNavigationBar(navController: NavHostController) {
 
                         //Log.d("RDLog","[NavigateRoute]${strNavigateRoute}[iPopUpToId]${iPopUpToId}[iRootTopId]${iRootTopId}")
 
-                        navController.navigate(strNavigateRoute) {
-                            popUpTo(iPopUpToId) {
-                                saveState = true
-                            }
-
-                            //取得起始頁面(home_screen)最上層的screen
-                            for (navBackStackEntry in navController.visibleEntries.value) {
-                                navBackStackEntry.destination.route?.let { strEntryRoute ->
-                                    if (strEntryRoute.contains(strFindStartRoute)) {
-                                        //判斷是findStartDestination，即home_screen層的screen，才紀錄
-                                        strRootTopRoute = navBackStackEntry.destination.route ?: ""
-                                        iRootTopId = navBackStackEntry.destination.id
-                                    }
+                        if (strNavigateRoute.isNotEmpty() && iPopUpToId != 0 ){
+                            navController.navigate(strNavigateRoute) {
+                                popUpTo(iPopUpToId) {
+                                    saveState = true
                                 }
 
+                                //取得起始頁面(home_screen)最上層的screen
+                                for (navBackStackEntry in navController.visibleEntries.value) {
+                                    navBackStackEntry.destination.route?.let { strEntryRoute ->
+                                        if (strEntryRoute.contains(strFindStartRoute)) {
+                                            //判斷是findStartDestination，即home_screen層的screen，才紀錄
+                                            strRootTopRoute = navBackStackEntry.destination.route ?: ""
+                                            iRootTopId = navBackStackEntry.destination.id
+                                        }
+                                    }
+
+                                }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                            launchSingleTop = true
-                            restoreState = true
                         }
+
                     },
             )
         }
