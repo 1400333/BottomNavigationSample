@@ -67,22 +67,19 @@ fun BottomNavigationBar(navController: NavHostController) {
                         var iPopUpToId = 0
 
                         if (navigationItem.route == strFindStartRoute) {
-                            iPopUpToId = findStartDestination.id
+                            //我現在手動點Home，即navigationItem.route 為 Screens.Home.route，
+                            //要切換的頁面為Home最上層的畫面，即strRootTopRoute
+                            iPopUpToId = iRootTopId
+                            strNavigateRoute = strRootTopRoute
                         } else {
                             for (navBackStackEntry in navController.visibleEntries.value) {
                                 navBackStackEntry.destination.route?.let { strEntryRoute ->
                                     if (strEntryRoute.contains(strFindStartRoute)) {
+                                        //原本在Home，切換到Search或Profile：返回時到Home的最上層畫面
                                         iPopUpToId = navBackStackEntry.destination.id
                                     }
                                 }
                             }
-                        }
-
-                        //我現在手動點Home，即navigationItem.route 為 Screens.Home.route，
-                        //要切換的頁面為Home最上層的畫面，即strRootTopRoute
-                        if (navigationItem.route == strFindStartRoute) {
-                            iPopUpToId = iRootTopId
-                            strNavigateRoute = strRootTopRoute
                         }
 
                         if (iPopUpToId == 0) {
